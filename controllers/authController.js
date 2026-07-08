@@ -8,6 +8,7 @@ const authUserModel = require("../models/authUserModel");
 
 const { comparePassword } = require("../utils/password");
 
+
 // =========================
 // Login
 // =========================
@@ -26,7 +27,7 @@ async function login(req, res) {
       const email = data.email.trim();
       const password = data.password.trim();
 
-      // Find user in MongoDB
+      // Find user by email
       const user = await authUserModel.findUserByEmail(email);
 
       if (!user) {
@@ -42,8 +43,7 @@ async function login(req, res) {
         );
       }
 
-      // Password check
-      // ( replaced )
+      // Compare password
       const isPasswordValid = await comparePassword(password, user.password);
 
       if (!isPasswordValid) {
@@ -59,7 +59,7 @@ async function login(req, res) {
         );
       }
 
-      // Check active status
+      // Check account status
       if (!user.isActive) {
         res.writeHead(403, {
           "Content-Type": "application/json",
@@ -73,7 +73,7 @@ async function login(req, res) {
         );
       }
 
-      // Create Session
+      // Create session
       const sessionId = createSession({
         id: user._id.toString(),
         name: user.name,
@@ -81,12 +81,22 @@ async function login(req, res) {
         role: user.role,
       });
 
+      // Decide where to redirect
+      let redirectUrl = "/";
+
+      if (user.role === "ADMIN") {
+        redirectUrl = "/home";
+      } else if (user.role === "STUDENT") {
+        redirectUrl = "/student/home";
+      }
+
+      // Redirect
       res.writeHead(302, {
         "Set-Cookie": `sessionId=${sessionId}; HttpOnly; Path=/`,
-        Location: "/home",
+        Location: redirectUrl,
       });
 
-      res.end();
+      return res.end();
     } catch (error) {
       console.error(error);
 
@@ -94,7 +104,7 @@ async function login(req, res) {
         "Content-Type": "application/json",
       });
 
-      res.end(
+      return res.end(
         JSON.stringify({
           status: "error",
           message: "Server Error",

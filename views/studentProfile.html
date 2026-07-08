@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Student Profile</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: #111827;
+        color: white;
+      }
+
+      .card {
+        background: #1f2937;
+        border: none;
+        border-radius: 15px;
+      }
+
+      .table {
+        color: white;
+      }
+
+      .table th {
+        width: 35%;
+      }
+
+      .table td {
+        color: #ddd;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card shadow-lg">
+            <div class="card-header bg-dark text-center">
+              <h3>My Profile</h3>
+            </div>
+
+            <div class="card-body">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th>Name</th>
+
+                    <td id="username"></td>
+                  </tr>
+
+                  <tr>
+                    <th>Email</th>
+
+                    <td id="email"></td>
+                  </tr>
+
+                  <tr>
+                    <th>Mobile</th>
+
+                    <td id="mobile"></td>
+                  </tr>
+
+                  <tr>
+                    <th>Date of Birth</th>
+
+                    <td id="dob"></td>
+                  </tr>
+
+                  <tr>
+                    <th>Gender</th>
+
+                    <td id="gender"></td>
+                  </tr>
+
+                  <tr>
+                    <th>Language</th>
+
+                    <td id="language"></td>
+                  </tr>
+
+                  <tr>
+                    <th>Skills</th>
+
+                    <td id="skills"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="d-flex justify-content-between">
+                <a href="/student/home" class="btn btn-secondary"> Back </a>
+
+                <a href="/logout" class="btn btn-danger"> Logout </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/studentProfile.js"></script>
+  </body>
+</html>

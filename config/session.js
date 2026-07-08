@@ -2,6 +2,7 @@ const crypto = require("crypto");
 
 const sessions = {};
 
+
 function createSession(user) {
   const sessionId = crypto.randomUUID();
   sessions[sessionId] = {
