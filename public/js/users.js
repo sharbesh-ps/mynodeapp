@@ -1,0 +1,98 @@
+const tbody = document.getElementById("tbody");
+
+const search = document.getElementById("search");
+const genderFilter = document.getElementById("genderFilter");
+const languageFilter = document.getElementById("languageFilter");
+const skillsFilter = document.getElementById("skillsFilter");
+const resetFilter = document.getElementById("resetBtn");
+
+async function loadUsers() {
+  const params = new URLSearchParams();
+
+  // Username Search
+  if (search.value.trim()) {
+    params.append("search", search.value.trim());
+  }
+
+  // Gender Filter
+  if (genderFilter.value) {
+    params.append("gender", genderFilter.value);
+  }
+
+  // Multiple Language Filter
+  const languages = [...languageFilter.selectedOptions].map(
+    (option) => option.value,
+  );
+  if (languages.length) {
+    params.append("language", languages.join(","));
+  }
+
+  const response = await fetch(`/users?${params.toString()}`);
+  const result = await response.json();
+  tbody.innerHTML = "";
+  result.data.forEach((user, index) => {
+    tbody.innerHTML += `
+<tr onclick="viewUser('${user._id}')" style="cursor:pointer">
+<td>${index + 1}</td>
+<td>${capitalize(user.username)}</td>
+<td>${user.email}</td>
+<td>${user.mobile}</td>
+<td>${user.dob}</td>
+<td>${user.gender}</td>
+<td>${user.language}</td>
+<td>${Array.isArray(user.skills) ? user.skills.join(", ") : user.skills}</td>
+<td>
+<a
+href="/update/${user._id}"
+class="btn btn-warning btn-sm"
+onclick="event.stopPropagation()">
+Edit
+</a>
+<button
+class="btn btn-danger btn-sm"
+onclick="event.stopPropagation();deleteUser('${user._id}')">
+Delete
+</button>
+</td>
+</tr>
+`;
+  });
+}
+
+// View User
+function viewUser(id) {
+  location.href = `/viewuser/${id}`;
+}
+
+// Delete User
+async function deleteUser(id) {
+  if (!confirm("Delete this user?")) return;
+  const response = await fetch(`/delete/${id}`, {
+    method: "DELETE",
+  });
+  const result = await response.json();
+  alert(result.message);
+  loadUsers();
+}
+
+function resetFilters() {
+  search.value = "";
+  genderFilter.value = "";
+  languageFilter.selectedIndex = 0;
+
+  if (skillsFilter) {
+    skillsFilter.selectedIndex = -1;
+  }
+
+  loadUsers();
+}
+
+// Event Listeners
+search.addEventListener("keyup", loadUsers);
+genderFilter.addEventListener("change", loadUsers);
+languageFilter.addEventListener("change", loadUsers);
+resetFilter.addEventListener("click", resetFilters)
+
+
+// Initial Load
+loadUsers();
