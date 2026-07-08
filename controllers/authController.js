@@ -5,6 +5,9 @@ const { createSession, destroySession } = require("../config/session");
 const { parseCookies } = require("../middleware/authMiddleware");
 
 const authUserModel = require("../models/authUserModel");
+
+const { comparePassword } = require("../utils/password");
+
 // =========================
 // Login
 // =========================
@@ -35,13 +38,15 @@ async function login(req, res) {
           JSON.stringify({
             status: "error",
             message: "Invalid Email",
-          })
+          }),
         );
       }
 
       // Password check
-      // (Later we'll replace this with bcrypt.compare())
-      if (user.password !== password) {
+      // ( replaced )
+      const isPasswordValid = await comparePassword(password, user.password);
+
+      if (!isPasswordValid) {
         res.writeHead(401, {
           "Content-Type": "application/json",
         });
@@ -50,7 +55,7 @@ async function login(req, res) {
           JSON.stringify({
             status: "error",
             message: "Invalid Password",
-          })
+          }),
         );
       }
 
@@ -64,7 +69,7 @@ async function login(req, res) {
           JSON.stringify({
             status: "error",
             message: "Account Disabled",
-          })
+          }),
         );
       }
 
@@ -82,7 +87,6 @@ async function login(req, res) {
       });
 
       res.end();
-
     } catch (error) {
       console.error(error);
 
@@ -94,7 +98,7 @@ async function login(req, res) {
         JSON.stringify({
           status: "error",
           message: "Server Error",
-        })
+        }),
       );
     }
   });
@@ -103,7 +107,6 @@ async function login(req, res) {
 // Logout
 // =========================
 function logout(req, res) {
-
   const cookies = parseCookies(req);
   const sessionId = cookies.sessionId;
   if (sessionId) {
@@ -112,8 +115,7 @@ function logout(req, res) {
 
   // Clear browser cookie
   res.writeHead(302, {
-    "Set-Cookie":
-      "sessionId=; HttpOnly; Path=/; Max-Age=0",
+    "Set-Cookie": "sessionId=; HttpOnly; Path=/; Max-Age=0",
     Location: "/",
   });
 
