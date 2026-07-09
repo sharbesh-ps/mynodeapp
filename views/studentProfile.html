@@ -1,110 +1,248 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8">
 
-    <title>Student Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+  <title>Student Profile</title>
 
-    <style>
-      body {
-        background: #111827;
-        color: white;
-      }
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
-      .card {
-        background: #1f2937;
-        border: none;
-        border-radius: 15px;
-      }
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-      .table {
-        color: white;
-      }
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b, #111827);
+      min-height: 100vh;
+      color: #fff;
+      font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-      .table th {
-        width: 35%;
-      }
+    .profile-card {
+      background: #1e293b;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #374151;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, .4);
+    }
 
-      .table td {
-        color: #ddd;
-      }
-    </style>
-  </head>
+    .profile-header {
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+      padding: 35px;
+      text-align: center;
+    }
 
-  <body>
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="card shadow-lg">
-            <div class="card-header bg-dark text-center">
-              <h3>My Profile</h3>
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: #fff;
+      color: #2563eb;
+      font-size: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      border: 5px solid rgba(255, 255, 255, .3);
+    }
+
+    .profile-header h3 {
+      margin-top: 15px;
+      font-weight: 700;
+    }
+
+    .table {
+      color: #fff;
+      margin-bottom: 0;
+    }
+
+    .table th {
+      width: 35%;
+      color: #60a5fa;
+      background: #111827;
+      font-weight: 600;
+    }
+
+    .table td {
+      background: #1f2937;
+      color: #f8fafc;
+    }
+
+    .table th,
+    .table td {
+      padding: 15px;
+      vertical-align: middle;
+      border-color: #374151;
+    }
+
+    .card-footer {
+      background: #111827;
+      border-top: 1px solid #374151;
+      padding: 20px;
+    }
+
+    .btn {
+      border-radius: 10px;
+      padding: 10px 22px;
+      font-weight: 600;
+    }
+
+    .btn-secondary {
+      background: #374151;
+      border: none;
+    }
+
+    .btn-secondary:hover {
+      background: #4b5563;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      border: none;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .info-icon {
+      width: 22px;
+      color: #60a5fa;
+      margin-right: 8px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container py-5">
+
+    <div class="row justify-content-center">
+
+      <div class="col-lg-8">
+
+        <div class="profile-card">
+
+          <div class="profile-header">
+
+            <div class="avatar">
+              <i class="fa-solid fa-user"></i>
             </div>
 
-            <div class="card-body">
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <th>Name</th>
+            <h3>Student Profile</h3>
 
-                    <td id="username"></td>
-                  </tr>
+            <p class="text-light mb-0">
+              Welcome to your dashboard
+            </p>
 
-                  <tr>
-                    <th>Email</th>
-
-                    <td id="email"></td>
-                  </tr>
-
-                  <tr>
-                    <th>Mobile</th>
-
-                    <td id="mobile"></td>
-                  </tr>
-
-                  <tr>
-                    <th>Date of Birth</th>
-
-                    <td id="dob"></td>
-                  </tr>
-
-                  <tr>
-                    <th>Gender</th>
-
-                    <td id="gender"></td>
-                  </tr>
-
-                  <tr>
-                    <th>Language</th>
-
-                    <td id="language"></td>
-                  </tr>
-
-                  <tr>
-                    <th>Skills</th>
-
-                    <td id="skills"></td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div class="d-flex justify-content-between">
-                <a href="/student/home" class="btn btn-secondary"> Back </a>
-
-                <a href="/logout" class="btn btn-danger"> Logout </a>
-              </div>
-            </div>
           </div>
+
+          <div class="card-body p-4">
+
+            <table class="table table-bordered">
+
+              <tbody>
+
+                <tr>
+                  <th>
+                    <i class="fa-solid fa-user info-icon"></i>
+                    Name
+                  </th>
+
+                  <td id="username"></td>
+                </tr>
+
+                <tr>
+                  <th>
+                    <i class="fa-solid fa-envelope info-icon"></i>
+                    Email
+                  </th>
+
+                  <td id="email"></td>
+                </tr>
+
+                <tr>
+                  <th>
+                    <i class="fa-solid fa-phone info-icon"></i>
+                    Mobile
+                  </th>
+
+                  <td id="mobile"></td>
+                </tr>
+
+                <tr>
+                  <th>
+                    <i class="fa-solid fa-calendar info-icon"></i>
+                    Date of Birth
+                  </th>
+
+                  <td id="dob"></td>
+                </tr>
+
+                <tr>
+                  <th>
+                    <i class="fa-solid fa-venus-mars info-icon"></i>
+                    Gender
+                  </th>
+
+                  <td id="gender"></td>
+                </tr>
+
+                <tr>
+                  <th>
+                    <i class="fa-solid fa-language info-icon"></i>
+                    Language
+                  </th>
+
+                  <td id="language"></td>
+                </tr>
+
+                <tr>
+                  <th>
+                    <i class="fa-solid fa-laptop-code info-icon"></i>
+                    Skills
+                  </th>
+
+                  <td id="skills"></td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+          <div class="card-footer">
+
+            <div class="d-flex justify-content-between">
+
+              <a href="/student/home" class="btn btn-secondary">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back
+              </a>
+
+              <a href="/logout" class="btn btn-danger">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+              </a>
+
+            </div>
+
+          </div>
+
         </div>
+
       </div>
+
     </div>
 
-    <script src="/js/studentProfile.js"></script>
-  </body>
+  </div>
+
+  <script src="/js/studentProfile.js"></script>
+
+</body>
+
 </html>

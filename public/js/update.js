@@ -2,6 +2,7 @@ const id = location.pathname.split("/")[2];
 
 const form = document.getElementById("updateForm");
 
+
 // Load user details
 async function loadUser() {
   try {
@@ -21,6 +22,8 @@ async function loadUser() {
     document.getElementById("mobile").value = user.mobile || "";
     document.getElementById("dob").value = user.dob || "";
     document.getElementById("language").value = user.language || "";
+    document.getElementById("role").value = user.role;
+    document.getElementById("role").value = user.role;
 
     // Gender
     const gender = document.querySelector(
@@ -61,6 +64,8 @@ form.addEventListener("submit", async function (e) {
   const mobile = document.getElementById("mobile");
   const dob = document.getElementById("dob");
   const language = document.getElementById("language");
+  const password = document.getElementById("password");
+  const role = document.getElementById("role");
 
   const gender = document.querySelector('input[name="gender"]:checked');
 
@@ -107,6 +112,25 @@ form.addEventListener("submit", async function (e) {
     valid = false;
   }
 
+  // Role validation
+  if (!role.value) {
+    showError("role", "roleError", "Select a role.");
+    valid = false;
+  }
+
+  // Password is optional
+  if (
+    password.value.trim() !== "" &&
+    password.value.trim().length < 6
+  ) {
+    showError(
+      "password",
+      "passwordError",
+      "Password must be at least 6 characters."
+    );
+    valid = false;
+  }
+
   if (skills.length === 0) {
     alert("Select at least one Skill");
     valid = false;
@@ -117,6 +141,8 @@ form.addEventListener("submit", async function (e) {
   const body = {
     username: username.value.trim(),
     email: email.value.trim(),
+    password: password.value.trim(), // Empty if unchanged
+    role: role.value,
     mobile: mobile.value.trim(),
     dob: dob.value,
     gender: gender.value,

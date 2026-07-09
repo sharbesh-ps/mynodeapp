@@ -36,11 +36,22 @@ async function loadUsers() {
 <td>${index + 1}</td>
 <td>${capitalize(user.username)}</td>
 <td>${user.email}</td>
+
+<td>
+  <span class="badge ${user.role === "ADMIN"
+        ? "bg-danger"
+        : "bg-primary"
+      }">
+    ${user.role || "STUDENT"}
+  </span>
+</td>
+
 <td>${user.mobile}</td>
 <td>${user.dob}</td>
 <td>${user.gender}</td>
 <td>${user.language}</td>
 <td>${Array.isArray(user.skills) ? user.skills.join(", ") : user.skills}</td>
+
 <td>
 <a
 href="/update/${user._id}"
@@ -48,11 +59,13 @@ class="btn btn-warning btn-sm"
 onclick="event.stopPropagation()">
 Edit
 </a>
+
 <button
 class="btn btn-danger btn-sm"
 onclick="event.stopPropagation();deleteUser('${user._id}')">
 Delete
 </button>
+
 </td>
 </tr>
 `;

@@ -58,6 +58,16 @@ function validateUser(data) {
     errors.mobile = "Invalid mobile number.";
   }
 
+  if (data.password && data.password.trim() !== "") {
+    if (data.password.trim().length < 6) {
+      errors.password = "Password must be at least 6 characters.";
+    }
+  }
+
+  if (!["ADMIN", "STUDENT"].includes(data.role)) {
+    errors.role = "Invalid role selected.";
+  }
+
   return {
     valid: Object.keys(errors).length === 0,
     errors,

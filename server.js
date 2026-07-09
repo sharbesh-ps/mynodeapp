@@ -56,46 +56,7 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    // ==========================================
-    // Static CSS
-    // ==========================================
-    if (pathname.startsWith("/css/")) {
-      const filePath = path.join(__dirname, "public", pathname);
 
-      if (fs.existsSync(filePath)) {
-        res.writeHead(200, {
-          "Content-Type": "text/css",
-        });
-
-        return res.end(fs.readFileSync(filePath));
-      }
-    }
-
-    // ==========================================
-    // Static Images
-    // ==========================================
-    if (pathname.startsWith("/images/")) {
-      const filePath = path.join(__dirname, "public", pathname);
-
-      if (fs.existsSync(filePath)) {
-        const ext = path.extname(filePath);
-
-        const mimeTypes = {
-          ".png": "image/png",
-          ".jpg": "image/jpeg",
-          ".jpeg": "image/jpeg",
-          ".gif": "image/gif",
-          ".svg": "image/svg+xml",
-        };
-
-        res.writeHead(200, {
-          "Content-Type":
-            mimeTypes[ext] || "application/octet-stream",
-        });
-
-        return res.end(fs.readFileSync(filePath));
-      }
-    }
 
     // ==========================================
     // ADMIN Protected Routes

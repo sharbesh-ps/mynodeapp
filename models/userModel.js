@@ -79,8 +79,14 @@ async function deleteUser(id) {
     _id: new ObjectId(id),
   });
 }
+async function findUserByEmail(email) {
+  const db = getDB();
+
+  return await db.collection("students").findOne({ email });
+}
 
 module.exports = {
+  findUserByEmail,
   createUser,
   getUsers,
   getUserById,

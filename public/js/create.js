@@ -10,7 +10,8 @@ form.addEventListener("submit", function (e) {
   const mobile = document.getElementById("mobile");
   const dob = document.getElementById("dob");
   const language = document.getElementById("language");
-
+  const password = document.getElementById("password");
+  const role = document.getElementById("role");
   const gender = document.querySelector('input[name="gender"]:checked');
 
   const skills = [];
@@ -38,6 +39,25 @@ form.addEventListener("submit", function (e) {
 
   if (!mobileRegex.test(mobile.value.trim())) {
     showError("mobile", "mobileError", "Enter a valid mobile number.");
+    valid = false;
+  }
+
+  // Password Validation
+  if (password.value.trim() === "") {
+    showError("password", "passwordError", "Password is required.");
+    valid = false;
+  } else if (password.value.length < 6) {
+    showError(
+      "password",
+      "passwordError",
+      "Password must be at least 6 characters."
+    );
+    valid = false;
+  }
+
+  // Role Validation
+  if (role.value === "") {
+    showError("role", "roleError", "Select a role.");
     valid = false;
   }
 

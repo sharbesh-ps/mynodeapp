@@ -1,6 +1,7 @@
 const querystring = require("querystring");
 const userModel = require("../models/userModel");
 const { validateUser } = require("../utils/validator");
+const { hashPassword } = require("../utils/password");
 
 // ==========================================
 // Create User
@@ -41,6 +42,15 @@ async function createUser(req, res) {
         );
       }
 
+      // Hash password
+      data.password = await hashPassword(data.password);
+      
+      // Default values
+      data.isActive = true;
+      data.createdAt = new Date();
+      data.updatedAt = new Date();
+
+      // Save user
       await userModel.createUser(data);
 
       res.writeHead(302, {
@@ -209,10 +219,20 @@ async function updateUser(req, res, id) {
         );
       }
 
-      // Update in MongoDB
+      // Hash password only if user entered one
+      if (data.password && data.password.trim() !== "") {
+        data.password = await hashPassword(data.password);
+      } else {
+        delete data.password;
+      }
+
+      // Update timestamp
+      data.updatedAt = new Date();
+
+      // Update user
       await userModel.updateUser(id, data);
 
-      // Fetch updated record
+      // Fetch updated user
       const updatedUser = await userModel.getUserById(id);
 
       res.writeHead(200, {

@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt");
 const { MongoClient } = require("mongodb");
 
-const URI = "mongodb://localhost:27017"; // Change if required
+const URI = "mongodb://localhost:27017"; 
 const DATABASE = "admission";
-const COLLECTION = "users";
+const COLLECTION = "authusers";
 
 async function hashAdminPassword() {
   const client = new MongoClient(URI);
@@ -30,8 +30,7 @@ async function hashAdminPassword() {
     );
 
     console.log("Admin password updated successfully.");
-    console.log("Hashed Password:");
-    console.log(hashedPassword);
+
 
   } catch (error) {
     console.error(error);

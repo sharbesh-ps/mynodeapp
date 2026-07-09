@@ -1,7 +1,7 @@
 const { getDB } = require("../config/db");
 const { ObjectId } = require("mongodb");
 
-const COLLECTION = "users";
+const COLLECTION = "authusers";
 
 // ==============================
 // Create User

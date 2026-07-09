@@ -5,6 +5,7 @@ const { createSession, destroySession } = require("../config/session");
 const { parseCookies } = require("../middleware/authMiddleware");
 
 const authUserModel = require("../models/authUserModel");
+const userModel = require("../models/userModel");
 
 const { comparePassword } = require("../utils/password");
 
@@ -27,8 +28,16 @@ async function login(req, res) {
       const email = data.email.trim();
       const password = data.password.trim();
 
-      // Find user by email
-      const user = await authUserModel.findUserByEmail(email);
+      // First check Admin collection
+      let user = await authUserModel.findUserByEmail(email);
+
+      // If not found, check Student collection
+      if (!user) {
+        user = await userModel.findUserByEmail(email);
+      }
+
+      console.log("Login Email:", email);
+      console.log("User Found:", user);
 
       if (!user) {
         res.writeHead(401, {
@@ -39,10 +48,9 @@ async function login(req, res) {
           JSON.stringify({
             status: "error",
             message: "Invalid Email",
-          }),
+          })
         );
       }
-
       // Compare password
       const isPasswordValid = await comparePassword(password, user.password);
 
