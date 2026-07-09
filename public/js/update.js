@@ -21,7 +21,7 @@ async function loadUser() {
     document.getElementById("email").value = user.email || "";
     document.getElementById("mobile").value = user.mobile || "";
     document.getElementById("dob").value = user.dob || "";
-    document.getElementById("language").value = user.language || "";
+    languageChoices.setChoiceByValue(user.language || []);
     document.getElementById("role").value = user.role;
     document.getElementById("role").value = user.role;
 
@@ -51,6 +51,14 @@ async function loadUser() {
     alert("Unable to load user.");
   }
 }
+
+
+
+const languageChoices = new Choices("#language", {
+  removeItemButton: true,
+  searchEnabled: false,
+  shouldSort: false,
+});
 
 loadUser();
 
@@ -107,8 +115,10 @@ form.addEventListener("submit", async function (e) {
     valid = false;
   }
 
-  if (!language.value) {
-    alert("Select Language");
+
+  const languages = languageChoices.getValue(true);
+  if (languages.length === 0) {
+    showError("language", "languageError", "Select at least one language.");
     valid = false;
   }
 
@@ -141,12 +151,12 @@ form.addEventListener("submit", async function (e) {
   const body = {
     username: username.value.trim(),
     email: email.value.trim(),
-    password: password.value.trim(), // Empty if unchanged
+    password: password.value.trim(),
     role: role.value,
     mobile: mobile.value.trim(),
     dob: dob.value,
     gender: gender.value,
-    language: language.value,
+    language: languages,
     skills,
   };
 

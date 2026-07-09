@@ -36,8 +36,8 @@ async function login(req, res) {
         user = await userModel.findUserByEmail(email);
       }
 
-      console.log("Login Email:", email);
-      console.log("User Found:", user);
+      // console.log("Login Email:", email);
+      // console.log("User Found:", user);
 
       if (!user) {
         res.writeHead(401, {

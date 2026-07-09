@@ -1,7 +1,13 @@
 const form = document.getElementById("createForm");
+const languageChoices = new Choices("#language", {
+  removeItemButton: true,
+  searchEnabled: false,
+  shouldSort: false,
+});
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
+
 
   clearAllErrors();
 
@@ -9,7 +15,6 @@ form.addEventListener("submit", function (e) {
   const email = document.getElementById("email");
   const mobile = document.getElementById("mobile");
   const dob = document.getElementById("dob");
-  const language = document.getElementById("language");
   const password = document.getElementById("password");
   const role = document.getElementById("role");
   const gender = document.querySelector('input[name="gender"]:checked');
@@ -33,6 +38,7 @@ form.addEventListener("submit", function (e) {
   }
 
   if (!emailRegex.test(email.value.trim())) {
+    console.log('show error is triggered');
     showError("email", "emailError", "Enter a valid email.");
     valid = false;
   }
@@ -62,22 +68,25 @@ form.addEventListener("submit", function (e) {
   }
 
   if (!dob.value) {
-    alert("Select Date of Birth");
+    showError("dob", "dobError", "Select Date of Birth.");
     valid = false;
   }
 
   if (!gender) {
-    alert("Select Gender");
+    document.getElementById("genderError").innerText = "Select Gender.";
+    valid = false;
+  }
+  // languages
+  const languages = languageChoices.getValue(true);
+  if (languages.length === 0) {
+    showError("language", "languageError", "Select at least one language.");
     valid = false;
   }
 
-  if (language.value === "") {
-    alert("Select Language");
-    valid = false;
-  }
 
   if (skills.length === 0) {
-    alert("Select at least one Skill");
+    document.getElementById("skillsError").innerText =
+      "Select at least one skill.";
     valid = false;
   }
 

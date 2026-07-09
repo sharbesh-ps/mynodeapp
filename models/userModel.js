@@ -16,10 +16,20 @@ async function getUsers(filters = {}) {
 
   // Username Search
   if (filters.search) {
-    query.username = {
-      $regex: filters.search,
-      $options: "i",
-    };
+    query.$or = [
+      {
+        username: {
+          $regex: filters.search,
+          $options: "i",
+        },
+      },
+      {
+        email: {
+          $regex: filters.search,
+          $options: "i",
+        },
+      },
+    ];
   }
 
   // Gender Filter
@@ -30,9 +40,6 @@ async function getUsers(filters = {}) {
   // Multiple Language Filter
   if (filters.languages && filters.languages.length > 0) {
     query.language = {
-
-
-      
       $in: filters.languages,
     };
   }
@@ -40,6 +47,7 @@ async function getUsers(filters = {}) {
     query.role = filters.role;
   }
 
+  
   // Skills Filter
   if (filters.skills && filters.skills.length > 0) {
     query.skills = {
@@ -50,7 +58,7 @@ async function getUsers(filters = {}) {
   return await db
     .collection("students")
     .find(query)
-    .sort({ _id: -1 }) // Latest First
+    .sort({ _id: -1 })
     .toArray();
 }
 

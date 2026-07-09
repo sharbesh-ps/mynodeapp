@@ -2,10 +2,25 @@ const tbody = document.getElementById("tbody");
 
 const search = document.getElementById("search");
 const genderFilter = document.getElementById("genderFilter");
-const languageFilter = document.getElementById("languageFilter");
-const skillsFilter = document.getElementById("skillsFilter");
 const resetFilter = document.getElementById("resetBtn");
 const roleFilter = document.getElementById("roleFilter");
+// const languageFilters = document.getElementById("languageFilter");
+// const skillFilters = document.getElementById("skillFilter");
+
+const languageFilter = new TomSelect("#languageFilter", {
+  plugins: ["remove_button"],
+  placeholder: "All Languages",
+  hidePlaceholder: true,
+});
+
+const skillsFilter = new TomSelect("#skillsFilter", {
+  plugins: ["remove_button"],
+  placeholder: "All Skills",
+  hidePlaceholder: true,
+});
+
+
+
 
 async function loadUsers() {
   const params = new URLSearchParams();
@@ -26,12 +41,16 @@ async function loadUsers() {
   }
 
   // Multiple Language Filter
-  const languages = [...languageFilter.selectedOptions].map(
-    (option) => option.value,
-  );
-  if (languages.length) {
+  const languages = languageFilter.getValue();
+  if (languages.length > 0) {
     params.append("language", languages.join(","));
   }
+
+  // Multiple skills Filter
+  const skills = skillsFilter.getValue();
+  if (skills.length > 0) {
+    params.append("skills", skills.join(","));
+  } 
 
   const response = await fetch(`/users?${params.toString()}`);
   const result = await response.json();
@@ -97,11 +116,10 @@ async function deleteUser(id) {
 function resetFilters() {
   search.value = "";
   genderFilter.value = "";
-  languageFilter.selectedIndex = 0;
+  languageFilter.clear();
+  skillsFilter.clear()
   roleFilter.value = "";
-  if (skillsFilter) {
-    skillsFilter.selectedIndex = -1;
-  }
+
 
   loadUsers();
 }
@@ -109,9 +127,10 @@ function resetFilters() {
 // Event Listeners
 search.addEventListener("keyup", loadUsers);
 genderFilter.addEventListener("change", loadUsers);
-languageFilter.addEventListener("change", loadUsers);
-resetFilter.addEventListener("click", resetFilters);
+languageFilter.on("change", loadUsers);
+skillsFilter.on("change", loadUsers);
 roleFilter.addEventListener("change", loadUsers);
+resetFilter.addEventListener("click", resetFilters);
 
 
 // Initial Load

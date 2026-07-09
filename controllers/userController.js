@@ -92,7 +92,7 @@ async function getUsers(req, res) {
 
     // Multiple Language Filter
     const language = url.searchParams.get("language");
-
+    const skill = url.searchParams.get("skills");
     if (language) {
       filters.languages = language
         .split(",")
@@ -100,16 +100,16 @@ async function getUsers(req, res) {
         .filter(Boolean);
     }
 
-const users = await userModel.getUsers(filters);
     // Skills Filter
     const skills = url.searchParams.get("skills");
     if (skills) {
       filters.skills = skills
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean);
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
     }
-
+    
+    const users = await userModel.getUsers(filters);
 
 
     res.writeHead(200, {
