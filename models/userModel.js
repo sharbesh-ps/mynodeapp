@@ -30,8 +30,14 @@ async function getUsers(filters = {}) {
   // Multiple Language Filter
   if (filters.languages && filters.languages.length > 0) {
     query.language = {
+
+
+      
       $in: filters.languages,
     };
+  }
+  if (filters.role) {
+    query.role = filters.role;
   }
 
   // Skills Filter

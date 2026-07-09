@@ -46,8 +46,17 @@
       <div class="card-body">
         <div class="row g-3">
           <!-- Search -->
-          <div class="col-md-4">
+          <div class="col-md-3">
             <input type="text" id="search" class="form-control" placeholder="Search Username" />
+          </div>
+
+          <!-- Role -->
+          <div class="col-md-2">
+            <select id="roleFilter" class="form-select">
+              <option value="">All Roles</option>
+              <option value="ADMIN">Admin</option>
+              <option value="STUDENT">Student</option>
+            </select>
           </div>
 
           <!-- Gender -->
@@ -71,7 +80,7 @@
             </select>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="d-flex justify-content-end gap-2">
               <a href="/create" class="btn btn-success"> Create User </a>
               <button type="button" class="btn btn-warning" id="resetBtn">

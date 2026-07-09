@@ -44,7 +44,7 @@ async function createUser(req, res) {
 
       // Hash password
       data.password = await hashPassword(data.password);
-      
+
       // Default values
       data.isActive = true;
       data.createdAt = new Date();
@@ -85,6 +85,7 @@ async function getUsers(req, res) {
     const filters = {
       search: url.searchParams.get("search") || "",
       gender: url.searchParams.get("gender") || "",
+      role: url.searchParams.get("role") || "",
       languages: [],
       skills: [],
     };
@@ -99,9 +100,9 @@ async function getUsers(req, res) {
         .filter(Boolean);
     }
 
+const users = await userModel.getUsers(filters);
     // Skills Filter
     const skills = url.searchParams.get("skills");
-
     if (skills) {
       filters.skills = skills
         .split(",")
@@ -109,7 +110,7 @@ async function getUsers(req, res) {
         .filter(Boolean);
     }
 
-    const users = await userModel.getUsers(filters);
+
 
     res.writeHead(200, {
       "Content-Type": "application/json",

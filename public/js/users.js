@@ -5,6 +5,7 @@ const genderFilter = document.getElementById("genderFilter");
 const languageFilter = document.getElementById("languageFilter");
 const skillsFilter = document.getElementById("skillsFilter");
 const resetFilter = document.getElementById("resetBtn");
+const roleFilter = document.getElementById("roleFilter");
 
 async function loadUsers() {
   const params = new URLSearchParams();
@@ -12,6 +13,11 @@ async function loadUsers() {
   // Username Search
   if (search.value.trim()) {
     params.append("search", search.value.trim());
+  }
+
+  // Role Filter
+  if (roleFilter.value) {
+    params.append("role", roleFilter.value);
   }
 
   // Gender Filter
@@ -92,7 +98,7 @@ function resetFilters() {
   search.value = "";
   genderFilter.value = "";
   languageFilter.selectedIndex = 0;
-
+  roleFilter.value = "";
   if (skillsFilter) {
     skillsFilter.selectedIndex = -1;
   }
@@ -104,7 +110,8 @@ function resetFilters() {
 search.addEventListener("keyup", loadUsers);
 genderFilter.addEventListener("change", loadUsers);
 languageFilter.addEventListener("change", loadUsers);
-resetFilter.addEventListener("click", resetFilters)
+resetFilter.addEventListener("click", resetFilters);
+roleFilter.addEventListener("change", loadUsers);
 
 
 // Initial Load
